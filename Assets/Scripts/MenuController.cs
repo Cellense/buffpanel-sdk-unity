@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    public Text campaignNameInputFieldText;
+    public Text gameNameInputFieldText;
     public Text playerTokenInputFieldText;
 
     public Text responseText;
@@ -26,14 +26,13 @@ public class MenuController : MonoBehaviour
         public void error(WWW www)
         {
             this._responseText.color = Color.red;
-            this._responseText.text = "The following error occurred:\n" + www.error + "\n"
-                + "Server Response:\n" + www.text;            
+            this._responseText.text = "The following error occurred:\n" + www.error;            
         }
     }
 
     public void OnSubmitClick()
     {
-        Tributit.Tributit.Track(this.campaignNameInputFieldText.text, this.playerTokenInputFieldText.text,
+        Tributit.Tributit.Track(this.gameNameInputFieldText.text, this.playerTokenInputFieldText.text,
             new DebugCallback(this.responseText));
     }
 }
