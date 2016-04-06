@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    public Text gameNameInputFieldText;
+    public Text gameTokenInputFieldText;
     public Text playerTokenInputFieldText;
 
     public Text responseText;
@@ -32,7 +32,7 @@ public class MenuController : MonoBehaviour
 
     public void OnSubmitClick()
     {
-        Tributit.Tributit.Track(this.gameNameInputFieldText.text, this.playerTokenInputFieldText.text,
+        Tributit.Tributit.Track(this.gameTokenInputFieldText.text, this.playerTokenInputFieldText.text,
             new DebugCallback(this.responseText));
     }
 }

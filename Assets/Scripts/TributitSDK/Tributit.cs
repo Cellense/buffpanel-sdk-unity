@@ -14,12 +14,12 @@ namespace Tributit
             { "Content-type", "application/json" }
         };
 
-        public static void Track(string gameName, string playerToken, Callback callback = null)
+        public static void Track(string gameToken, string playerToken, Callback callback = null)
         {
             string url = "http://" + _serviceHostname + _servicePath;
 
             string httpBody = Json.Serialize(new Dictionary<string, object> {
-                { "game_name", gameName },
+                { "game_token", gameToken },
                 { "player_token", playerToken }
             });
             byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
