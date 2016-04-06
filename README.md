@@ -1,4 +1,4 @@
-# Tribut.it Unity SDK
+# Tributit Unity SDK
 
 This repository contains an implementation with a simple interface designed to easily communicate with the REST API of the Tribut.it service in your Unity Game.
 
