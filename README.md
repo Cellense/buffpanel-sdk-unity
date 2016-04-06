@@ -4,6 +4,8 @@ This repository contains an implementation with a simple interface designed to e
 
 Also included are files for the creation of a test project for debugging purposes.
 
+For more information on the Tributit service, please visit our [website](http://tributit.com/).
+
 ## Setup
 
 To use the Unity SDK in your game, all you need to do is copy the contents of the `/Assets/Scripts/TributitSDK/` folder in this repository into your game project.
