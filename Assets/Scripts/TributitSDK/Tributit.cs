@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -17,16 +18,28 @@ namespace Tributit
             { "Content-type", "application/json" }
         };
 
-        public static void Track(string gameToken, string playerToken, Callback callback = null)
+		public static void Track(string gameToken, Dictionary<string, object> playerTokens, Callback callback = null)
         {
             string url = "http://" + _serviceHostname + _servicePath;
 
+			Dictionary<string, object> playerTokensDict = new Dictionary<string, object> ();
+			if (playerTokens.ContainsKey("registered")) {
+				playerTokensDict.Add("registered", playerTokens["registered"]);
+			}
+			if (playerTokens.ContainsKey("user_id")) {
+				playerTokensDict.Add("user_id", playerTokens["user_id"]);
+			}
+			if (playerTokensDict.Count == 0) {
+				callback.error(null);
+				return;
+			}
+
             string httpBody = Json.Serialize(new Dictionary<string, object> {
                 { "game_token", gameToken },
-                { "player_token", playerToken }
+				{ "player_tokens", playerTokensDict }
             });
             byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
-
+            
             GameObject gameObject = new GameObject("Tributit Sender Coroutine");
             Object.DontDestroyOnLoad(gameObject);
             MonoBehaviour coroutineObject = gameObject.AddComponent<MonoBehaviour>();
@@ -38,7 +51,6 @@ namespace Tributit
             WWW www = new WWW(url, httpBodyBytes, _httpHeaders);
 
             yield return www;
-
             if (www.error == null) {
 				if (callback != null) {
 					callback.success(www);
