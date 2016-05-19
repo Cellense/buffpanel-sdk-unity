@@ -20,10 +20,10 @@ Include this line of code in the place in your project's code, where you wish to
 
 ```
 Tributit.Tributit.Track(game_token, new Dictionary<string, object> {
-			{ "registered", steam_id }, { "user_id", apple_id } });
+			{ "registered", steam_id }, { "user_id", internal_id } });
 ```
 
-Where `game_token` is of type `string` and `steam_id`, `apple_id` are placeholders of type `string`.
+Where `game_token` is of type `string` and `steam_id`, `internal_id` are placeholders of type `string`.
 
 ## How it works?
 
