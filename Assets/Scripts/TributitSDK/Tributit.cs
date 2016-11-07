@@ -6,6 +6,10 @@ using System.Text;
 
 namespace Tributit
 {
+    class TributitMonoBehaviour : MonoBehaviour
+    {
+    }
+
     public class Tributit
     {
 		private static float initialRetryOffset = 0.25f;
@@ -42,7 +46,7 @@ namespace Tributit
             
             GameObject gameObject = new GameObject("Tributit Sender Coroutine");
             Object.DontDestroyOnLoad(gameObject);
-            MonoBehaviour coroutineObject = gameObject.AddComponent<MonoBehaviour>();
+            MonoBehaviour coroutineObject = gameObject.AddComponent<TributitMonoBehaviour>();
 			coroutineObject.StartCoroutine(Send(url, httpBodyBytes, callback, gameObject, 0, initialRetryOffset));
         }
 
@@ -60,7 +64,7 @@ namespace Tributit
 
 				GameObject newGameObject = new GameObject("Tributit Sender Coroutine");
 				Object.DontDestroyOnLoad(newGameObject);
-				MonoBehaviour coroutineObject = newGameObject.AddComponent<MonoBehaviour>();
+				MonoBehaviour coroutineObject = newGameObject.AddComponent<TributitMonoBehaviour>();
 				coroutineObject.StartCoroutine(Send(url, httpBodyBytes, callback, newGameObject, retryCount + 1, retryOffset * 2));
 			} else {
 				if (callback != null) {
