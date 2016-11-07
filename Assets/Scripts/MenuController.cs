@@ -1,8 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
-
-using System.Collections;
-using System.Collections.Generic;
 
 public class MenuController : MonoBehaviour
 {
@@ -45,7 +43,15 @@ public class MenuController : MonoBehaviour
     public void OnSubmitClick()
     {
 		Tributit.Tributit.Track(this.gameTokenInputFieldText.text, new Dictionary<string, object> {
-			{ "registered", this.playerRegisteredInputFieldText.text }, { "user_id", this.playerUserIdInputFieldText.text } },
+			{ "registered", this.playerRegisteredInputFieldText.text },
+            { "user_id", this.playerUserIdInputFieldText.text } },
 			new DebugCallback(this.responseText));
+    }
+
+    public void OnCookieClick()
+    {
+        responseText.color = Color.yellow;
+        responseText.text = "Chrome cookies:\n"
+            + Tributit.Json.Serialize(Tributit.CookieExtractor.ReadChromeCookies());
     }
 }
