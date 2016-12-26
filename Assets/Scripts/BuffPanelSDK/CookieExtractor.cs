@@ -3,7 +3,7 @@ using System.Collections;
 using System.Data;
 using Mono.Data.SqliteClient;
 
-namespace Tributit
+namespace BuffPanel
 {
     public class CookieExtractor
     {
@@ -18,7 +18,7 @@ namespace Tributit
             IDbConnection connection = new SqliteConnection("URI=file:" + dbPath);
             connection.Open();
             IDbCommand command = connection.CreateCommand();
-            command.CommandText = "SELECT name FROM cookies WHERE host_key LIKE '%" + Tributit.serviceHostname + "%';";
+            command.CommandText = "SELECT name FROM cookies WHERE host_key LIKE '%" + BuffPanel.serviceHostname + "%';";
             IDataReader reader = command.ExecuteReader();
 
             ArrayList result = new ArrayList();

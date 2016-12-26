@@ -10,7 +10,7 @@ public class MenuController : MonoBehaviour
 
     public Text responseText;
 
-    private class DebugCallback : Tributit.Callback
+    private class DebugCallback : BuffPanel.Callback
     {
         private Text _responseText;
 
@@ -42,7 +42,7 @@ public class MenuController : MonoBehaviour
 
     public void OnSubmitClick()
     {
-		Tributit.Tributit.Track(this.gameTokenInputFieldText.text, new Dictionary<string, object> {
+		BuffPanel.BuffPanel.Track(this.gameTokenInputFieldText.text, new Dictionary<string, object> {
 			{ "registered", this.playerRegisteredInputFieldText.text },
             { "user_id", this.playerUserIdInputFieldText.text } },
 			new DebugCallback(this.responseText));
@@ -52,6 +52,6 @@ public class MenuController : MonoBehaviour
     {
         responseText.color = Color.yellow;
         responseText.text = "Chrome cookies:\n"
-            + Tributit.Json.Serialize(Tributit.CookieExtractor.ReadChromeCookies());
+            + BuffPanel.Json.Serialize(BuffPanel.CookieExtractor.ReadChromeCookies());
     }
 }

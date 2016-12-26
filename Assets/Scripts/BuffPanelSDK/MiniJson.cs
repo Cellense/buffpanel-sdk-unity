@@ -33,7 +33,7 @@ using System.IO;
 using System.Text;
 using System.Globalization;
 
-namespace Tributit {
+namespace BuffPanel {
 	// Example usage:
 	//
 	//  using UnityEngine;

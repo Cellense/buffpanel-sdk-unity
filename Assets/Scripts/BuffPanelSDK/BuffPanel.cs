@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tributit
+namespace BuffPanel
 {
-    class TributitMonoBehaviour : MonoBehaviour
+    class BuffPanelMonoBehaviour : MonoBehaviour
     {
     }
 
-    public class Tributit
+    public class BuffPanel
     {
         public static string serviceHostname = "trbt.it";
         public static string servicePath = "/api/installation";
@@ -49,9 +49,9 @@ namespace Tributit
             });
             byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
             
-            GameObject gameObject = new GameObject("Tributit Sender Coroutine");
+            GameObject gameObject = new GameObject("BuffPanel Sender Coroutine");
             Object.DontDestroyOnLoad(gameObject);
-            MonoBehaviour coroutineObject = gameObject.AddComponent<TributitMonoBehaviour>();
+            MonoBehaviour coroutineObject = gameObject.AddComponent<BuffPanelMonoBehaviour>();
 			coroutineObject.StartCoroutine(Send(url, httpBodyBytes, callback, gameObject, 0, initialRetryOffset));
         }
 
@@ -71,9 +71,9 @@ namespace Tributit
             {
 				yield return new WaitForSeconds(retryOffset);
 
-				GameObject newGameObject = new GameObject("Tributit Sender Coroutine");
+				GameObject newGameObject = new GameObject("BuffPanel Sender Coroutine");
 				Object.DontDestroyOnLoad(newGameObject);
-				MonoBehaviour coroutineObject = newGameObject.AddComponent<TributitMonoBehaviour>();
+				MonoBehaviour coroutineObject = newGameObject.AddComponent<BuffPanelMonoBehaviour>();
 				coroutineObject.StartCoroutine(Send(url, httpBodyBytes, callback, newGameObject, retryCount + 1, retryOffset * 2));
 			}
             else

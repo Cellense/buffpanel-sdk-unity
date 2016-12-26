@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Tributit
+namespace BuffPanel
 {
     public interface Callback
     {
