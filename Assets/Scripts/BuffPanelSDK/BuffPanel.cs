@@ -11,8 +11,8 @@ namespace BuffPanel
 
     public class BuffPanel
     {
-        public static string serviceHostname = "trbt.it";
-        public static string servicePath = "/api/installation";
+        public static string serviceHostname = "buffpanel.com";
+        public static string servicePath = "/api/run";
 
         private static float initialRetryOffset = 0.25f;
 		private static int maxRetryCount = 10;        
