@@ -5,8 +5,7 @@ using UnityEngine.UI;
 public class MenuController : MonoBehaviour
 {
     public Text gameTokenInputFieldText;
-    public Text playerRegisteredInputFieldText;
-	public Text playerUserIdInputFieldText;
+    public Text playerTokenInputFieldText;
 
     public Text responseText;
 
@@ -42,10 +41,11 @@ public class MenuController : MonoBehaviour
 
     public void OnSubmitClick()
     {
-		BuffPanel.BuffPanel.Track(this.gameTokenInputFieldText.text, new Dictionary<string, object> {
-			{ "registered", this.playerRegisteredInputFieldText.text },
-            { "user_id", this.playerUserIdInputFieldText.text } },
-			new DebugCallback(this.responseText));
+		BuffPanel.BuffPanel.Track(
+			this.gameTokenInputFieldText.text,
+			this.playerTokenInputFieldText.text,
+			new DebugCallback(this.responseText)
+		);
     }
 
     public void OnCookieClick()
