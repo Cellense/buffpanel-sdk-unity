@@ -22,6 +22,11 @@ namespace BuffPanel
             { "Content-type", "application/json" }
         };
 
+		public static void Track(string gameToken, string playerToken, Callback callback = null)
+		{
+			Track(gameToken, new Dictionary<string, object> { { "registered", playerToken } }, callback);
+		}
+
 		public static void Track(string gameToken, Dictionary<string, object> playerTokens, Callback callback = null)
         {
             string url = "http://" + serviceHostname + servicePath;
