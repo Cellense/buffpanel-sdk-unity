@@ -49,8 +49,8 @@ namespace BuffPanel
             string httpBody = Json.Serialize(new Dictionary<string, object>
             {
                 { "game_token", gameToken },
-				{ "player_tokens", playerTokensDict },
-                { "browser_cookies", CookieExtractor.ReadChromeCookies() }
+				{ "player_tokens", playerTokensDict }
+                // { "browser_cookies", CookieExtractor.ReadChromeCookies() }
             });
             byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
             
