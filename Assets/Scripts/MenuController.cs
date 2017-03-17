@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
@@ -47,15 +46,4 @@ public class MenuController : MonoBehaviour
 			new DebugCallback(this.responseText)
 		);
     }
-
-	/*
-    public void OnCookieClick()
-    {
-        responseText.color = Color.yellow;
-		responseText.text =
-			"Chrome cookies:\n" + BuffPanel.Json.Serialize(BuffPanel.CookieExtractor.ReadChromeCookies()) + "\n"
-			+ "Firefox cookies:\n" + BuffPanel.Json.Serialize(BuffPanel.CookieExtractor.ReadChromeCookies()) + "\n"
-			+ "Internet explorer 10 cookies:\n" + BuffPanel.Json.Serialize(BuffPanel.CookieExtractor.ReadChromeCookies()) + "\n";
-	}
-	*/
 }
