@@ -3,31 +3,31 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    public Text gameTokenInputFieldText;
-    public Text playerTokenInputFieldText;
+	public Text gameTokenInputFieldText;
+	public Text playerTokenInputFieldText;
 
-    public Text responseText;
+	public Text responseText;
 
-    private class DebugCallback : BuffPanel.Callback
-    {
-        private Text _responseText;
+	private class DebugCallback : BuffPanel.Callback
+	{
+		private Text _responseText;
 
-        public DebugCallback(Text responseText)
-        {
-            this._responseText = responseText;
-        }
+		public DebugCallback(Text responseText)
+		{
+			this._responseText = responseText;
+		}
 
-        public void success(WWW www)
+		public void success(WWW www)
 		{
 			this._responseText.color = Color.green;
 			if (www == null) {
 				this._responseText.text = "Success";
 			} else {
-	            this._responseText.text = "Server Response:\n" + www.text;
+				this._responseText.text = "Server Response:\n" + www.text;
 			}
-        }
+		}
 
-        public void error(WWW www)
+		public void error(WWW www)
 		{
 			this._responseText.color = Color.red;
 			if (www == null) {
@@ -35,15 +35,16 @@ public class MenuController : MonoBehaviour
 			} else {
 				this._responseText.text = "The following error occurred:\n" + www.error;
 			}
-        }
-    }
+		}
+	}
 
-    public void OnSubmitClick()
-    {
+	public void OnSubmitClick()
+	{
 		BuffPanel.BuffPanel.Track(
 			this.gameTokenInputFieldText.text,
 			this.playerTokenInputFieldText.text,
+			false,
 			new DebugCallback(this.responseText)
 		);
-    }
+	}
 }

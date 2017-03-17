@@ -2,9 +2,9 @@
 
 namespace BuffPanel
 {
-    public interface Callback
-    {
-        void success(WWW www);
-        void error(WWW www);
-    }
+	public interface Callback
+	{
+		void success(WWW www);
+		void error(WWW www);
+	}
 }
