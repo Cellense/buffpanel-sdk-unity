@@ -11,12 +11,12 @@ namespace BuffPanel
 
     public class BuffPanel
     {
-        public static string serviceHostname = "staging.buffpanel.com:8080";
+        public static string serviceHostname = "buffpanel.com";
         public static string servicePath = "/api/run";
-        public static string redirectURI = ".redirect.staging";
+        public static List<string> redirectURIs = new List<string>();
 
         private static float initialRetryOffset = 0.25f;
-		private static int maxRetryCount = 10;        
+		private static int maxRetryCount = 10;
 
         private static Dictionary<string, string> httpHeaders = new Dictionary<string, string> {
             { "Content-type", "application/json" }
@@ -32,6 +32,7 @@ namespace BuffPanel
 		public static void Track(string gameToken, Dictionary<string, object> playerTokens, Callback callback = null)
         {
             string url = "http://" + serviceHostname + servicePath;
+            AddAlias(gameToken + ".trbt.it");
 
 			Dictionary<string, object> playerTokensDict = new Dictionary<string, object> ();
 			if (playerTokens.ContainsKey("registered")) {
@@ -47,11 +48,18 @@ namespace BuffPanel
 
             string httpBody = CreateHttpBody(gameToken, playerTokens);
             byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
-            
+
             GameObject gameObject = new GameObject("BuffPanel Sender Coroutine");
             Object.DontDestroyOnLoad(gameObject);
             MonoBehaviour coroutineObject = gameObject.AddComponent<BuffPanelMonoBehaviour>();
 			coroutineObject.StartCoroutine(Send(url, httpBodyBytes, callback, gameObject));
+        }
+
+        public static void AddAlias(string alias)
+        {
+            if (!redirectURIs.Contains(alias)) {
+                redirectURIs.Add(alias);
+            }
         }
 
         private static string CreateHttpBody(string gameToken, Dictionary<string, object> playerTokens)
@@ -71,7 +79,7 @@ namespace BuffPanel
             }
 
             Dictionary<string, string> cookies = new Dictionary<string, string>();
-            try { 
+            try {
                 cookies = CookieExtractor.ReadCookies(gameToken);
             } catch (System.Exception e) {
                 Debug.LogException(e);

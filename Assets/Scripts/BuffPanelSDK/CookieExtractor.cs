@@ -67,19 +67,20 @@ namespace BuffPanel
                 string conn = "URI=file:" + cookieStorePath;
                 IDbConnection connection = (IDbConnection)new SqliteConnection(conn);
                 connection.Open();
-                IDbCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT name, encrypted_value FROM cookies WHERE host_key LIKE '%" + gameToken + "" + BuffPanel.redirectURI + "%';";
-                IDataReader reader = command.ExecuteReader();
+                foreach (string x in BuffPanel.redirectURIs) {
+                    IDbCommand command = connection.CreateCommand();
+                    command.CommandText = "SELECT name, encrypted_value FROM cookies WHERE host_key LIKE '%" + x + "%';";
+                    IDataReader reader = command.ExecuteReader();
 
-                while (reader.Read())
-                {
-                    var encryptedData = (byte[])reader[1];
-                    var decodedData = System.Security.Cryptography.ProtectedData.Unprotect(encryptedData, null, System.Security.Cryptography.DataProtectionScope.CurrentUser);
-                    var plainText = System.Text.Encoding.ASCII.GetString(decodedData); // Looks like ASCII
-                    var clickId = reader.GetString(0);
-                    result.Add(clickId, plainText);
+                    while (reader.Read())
+                    {
+                        var encryptedData = (byte[])reader[1];
+                        var decodedData = System.Security.Cryptography.ProtectedData.Unprotect(encryptedData, null, System.Security.Cryptography.DataProtectionScope.CurrentUser);
+                        var plainText = System.Text.Encoding.ASCII.GetString(decodedData); // Looks like ASCII
+                        var clickId = reader.GetString(0);
+                        result.Add(clickId, plainText);
+                    }
                 }
-
                 connection.Close();
             }
             return result;
@@ -105,17 +106,19 @@ namespace BuffPanel
                 string conn = "URI=file:" + cookieStorePath;
                 IDbConnection connection = (IDbConnection)new SqliteConnection(conn);
                 connection.Open();
-                IDbCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT name, value FROM moz_cookies WHERE host LIKE '%" + gameToken + "" + BuffPanel.redirectURI + "%';";
-                IDataReader reader = command.ExecuteReader();
+                foreach (string x in BuffPanel.redirectURIs) {
+                    IDbCommand command = connection.CreateCommand();
+                    command.CommandText = "SELECT name, value FROM moz_cookies WHERE host LIKE '%" + x + "%';";
+                    IDataReader reader = command.ExecuteReader();
 
-                while (reader.Read())
-                {
-                    var clickId = reader.GetString(0);
-                    var campaignId = reader.GetString(1);
-                    result.Add(clickId, campaignId);
+                    while (reader.Read())
+                    {
+                        var clickId = reader.GetString(0);
+                        var campaignId = reader.GetString(1);
+                        result.Add(clickId, campaignId);
+                    }
+
                 }
-
                 connection.Close();
             }
             return result;
@@ -136,10 +139,13 @@ namespace BuffPanel
                 var text = File.ReadAllLines(cookieStorePath);
                 for (int i = 0; i < text.Length; i++)
                 {
-                    if (text[i].Contains(gameToken + "" + BuffPanel.redirectURI))
-                    {
-                        Debug.Log(cookieStorePath);
-                        result.Add(text[i - 2], text[i - 1]);
+
+                    foreach (string x in BuffPanel.redirectURIs) {
+                        if (text[i].Contains(x))
+                        {
+                            Debug.Log(cookieStorePath);
+                            result.Add(text[i - 2], text[i - 1]);
+                        }
                     }
                 }
             }
@@ -161,10 +167,12 @@ namespace BuffPanel
                 var text = File.ReadAllLines(cookieStorePath);
                 for (int i = 0; i < text.Length; i++)
                 {
-                    if (text[i].Contains(gameToken + "" + BuffPanel.redirectURI))
-                    {
-                        Debug.Log(cookieStorePath);
-                        result.Add(text[i - 2], text[i - 1]);
+                    foreach (string x in BuffPanel.redirectURIs) {
+                        if (text[i].Contains(x))
+                        {
+                            Debug.Log(cookieStorePath);
+                            result.Add(text[i - 2], text[i - 1]);
+                        }
                     }
                 }
             }
@@ -186,10 +194,12 @@ namespace BuffPanel
                 var text = File.ReadAllLines(cookieStorePath);
                 for (int i = 0; i < text.Length; i++)
                 {
-                    if (text[i].Contains(gameToken + "" + BuffPanel.redirectURI))
-                    {
-                        Debug.Log(cookieStorePath);
-                        result.Add(text[i - 2], text[i - 1]);
+                    foreach (string x in BuffPanel.redirectURIs) {
+                        if (text[i].Contains(x))
+                        {
+                            Debug.Log(cookieStorePath);
+                            result.Add(text[i - 2], text[i - 1]);
+                        }
                     }
                 }
             }
@@ -211,10 +221,12 @@ namespace BuffPanel
                 var text = File.ReadAllLines(cookieStorePath);
                 for (int i = 0; i < text.Length; i++)
                 {
-                    if (text[i].Contains(gameToken + "" + BuffPanel.redirectURI))
-                    {
-                        Debug.Log(cookieStorePath);
-                        result.Add(text[i - 2], text[i - 1]);
+                    foreach (string x in BuffPanel.redirectURIs) {
+                        if (text[i].Contains(x))
+                        {
+                            Debug.Log(cookieStorePath);
+                            result.Add(text[i - 2], text[i - 1]);
+                        }
                     }
                 }
             }
