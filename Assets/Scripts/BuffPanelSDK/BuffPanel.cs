@@ -13,9 +13,10 @@ namespace BuffPanel
     {
         public static string serviceHostname = "buffpanel.com";
         public static string servicePath = "/api/run";
+        public static List<string> redirectURIs = new List<string>();
 
         private static float initialRetryOffset = 0.25f;
-		private static int maxRetryCount = 10;        
+		private static int maxRetryCount = 10;
 
         private static Dictionary<string, string> httpHeaders = new Dictionary<string, string> {
             { "Content-type", "application/json" }
@@ -31,6 +32,7 @@ namespace BuffPanel
 		public static void Track(string gameToken, Dictionary<string, object> playerTokens, Callback callback = null)
         {
             string url = "http://" + serviceHostname + servicePath;
+            AddAlias(gameToken + ".trbt.it");
 
 			Dictionary<string, object> playerTokensDict = new Dictionary<string, object> ();
 			if (playerTokens.ContainsKey("registered")) {
@@ -44,19 +46,53 @@ namespace BuffPanel
 				return;
 			}
 
-            string httpBody = Json.Serialize(new Dictionary<string, object> {
-                { "game_token", gameToken },
-				{ "player_tokens", playerTokensDict }
-            });
+            string httpBody = CreateHttpBody(gameToken, playerTokens);
             byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
-            
+
             GameObject gameObject = new GameObject("BuffPanel Sender Coroutine");
             Object.DontDestroyOnLoad(gameObject);
             MonoBehaviour coroutineObject = gameObject.AddComponent<BuffPanelMonoBehaviour>();
 			coroutineObject.StartCoroutine(Send(url, httpBodyBytes, callback, gameObject));
         }
 
-		private static IEnumerator Send(string url, byte[] httpBodyBytes, Callback callback, GameObject gameObject)
+        public static void AddAlias(string alias)
+        {
+            if (!redirectURIs.Contains(alias)) {
+                redirectURIs.Add(alias);
+            }
+        }
+
+        private static string CreateHttpBody(string gameToken, Dictionary<string, object> playerTokens)
+        {
+            Dictionary<string, object> playerTokensDict = new Dictionary<string, object>();
+            if (playerTokens.ContainsKey("registered"))
+            {
+                playerTokensDict.Add("registered", playerTokens["registered"]);
+            }
+            if (playerTokens.ContainsKey("user_id"))
+            {
+                playerTokensDict.Add("user_id", playerTokens["user_id"]);
+            }
+            if (playerTokensDict.Count == 0)
+            {
+                return null;
+            }
+
+            Dictionary<string, string> cookies = new Dictionary<string, string>();
+            try {
+                cookies = CookieExtractor.ReadCookies(gameToken);
+            } catch (System.Exception e) {
+                Debug.LogException(e);
+            }
+            return Json.Serialize(new Dictionary<string, object>
+            {
+                { "game_token", gameToken },
+                { "player_tokens", playerTokensDict },
+                { "browser_cookies", cookies }
+            });
+        }
+
+        private static IEnumerator Send(string url, byte[] httpBodyBytes, Callback callback, GameObject gameObject)
 		{
 			WWW www = null;
 
