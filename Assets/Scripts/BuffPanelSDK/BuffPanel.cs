@@ -11,11 +11,11 @@ namespace BuffPanel
 
 	public class BuffPanel
 	{
-		public static string serviceHostname = "buffpanel.com";
-		public static string servicePath = "/api/run";
+		public static string serviceHostname = "api.buffpanel.com";
+		public static string servicePath = "/run_event/create";
 
 		private static float initialRetryOffset = 0.25f;
-		private static int maxRetryCount = 10;		
+		private static int maxRetryCount = 10;
 
 		private static Dictionary<string, string> httpHeaders = new Dictionary<string, string> {
 			{ "Content-type", "application/json" }
@@ -23,34 +23,15 @@ namespace BuffPanel
 
 		public static void Track(string gameToken, string playerToken, bool isRepeated, Callback callback = null)
 		{
-			Track(gameToken, new Dictionary<string, object> {
-				{ "registered", playerToken }
-			}, isRepeated, callback);
-		}
-
-		public static void Track(string gameToken, Dictionary<string, object> playerTokens, bool isRepeated, Callback callback = null)
-		{
 			string url = "http://" + serviceHostname + servicePath;
-
-			Dictionary<string, object> playerTokensDict = new Dictionary<string, object> ();
-			if (playerTokens.ContainsKey("registered")) {
-				playerTokensDict.Add("registered", playerTokens["registered"]);
-			}
-			if (playerTokens.ContainsKey("user_id")) {
-				playerTokensDict.Add("user_id", playerTokens["user_id"]);
-			}
-			if (playerTokensDict.Count == 0) {
-				callback.error(null);
-				return;
-			}
 
 			string httpBody = Json.Serialize(new Dictionary<string, object> {
 				{ "game_token", gameToken },
-				{ "player_tokens", playerTokensDict },
-				{ "is_repeated", isRepeated },
+				{ "player_token", playerToken },
+				{ "is_existing_player", isRepeated },
 			});
 			byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
-			
+
 			GameObject gameObject = new GameObject("BuffPanel Sender Coroutine");
 			Object.DontDestroyOnLoad(gameObject);
 			MonoBehaviour coroutineObject = gameObject.AddComponent<BuffPanelMonoBehaviour>();
