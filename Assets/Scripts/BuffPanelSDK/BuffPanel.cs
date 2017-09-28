@@ -14,6 +14,8 @@ namespace BuffPanel
 		public static string serviceHostname = "api.buffpanel.com";
 		public static string servicePath = "/run_event/create";
 
+		public static string version = "unity_0.0.1";
+
 		private static float initialRetryOffset = 0.25f;
 		private static int maxRetryCount = 10;
 
@@ -29,6 +31,7 @@ namespace BuffPanel
 				{ "game_token", gameToken },
 				{ "player_token", playerToken },
 				{ "is_existing_player", isRepeated },
+				{ "version", version }
 			});
 			byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
 
@@ -46,7 +49,8 @@ namespace BuffPanel
 				{ "game_token", gameToken },
 				{ "player_token", playerToken },
 				{ "is_existing_player", isRepeated },
-				{ "attributes", attributes }
+				{ "attributes", attributes },
+				{ "version", version }
 			});
 			byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
 
