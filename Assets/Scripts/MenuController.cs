@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class MenuController : MonoBehaviour
 {
@@ -44,6 +45,10 @@ public class MenuController : MonoBehaviour
 			this.gameTokenInputFieldText.text,
 			this.playerTokenInputFieldText.text,
 			false,
+			new Dictionary<string, string>() {
+				{ "super_dlc_nazov_installed", true.ToString()},
+				{ "super_dlc_purchaseTS", 1506599038.ToString()}
+			},
 			new DebugCallback(this.responseText)
 		);
 	}

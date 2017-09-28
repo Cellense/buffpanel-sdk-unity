@@ -38,6 +38,24 @@ namespace BuffPanel
 			coroutineObject.StartCoroutine(Send(url, httpBodyBytes, callback, gameObject));
 		}
 
+		public static void Track(string gameToken, string playerToken, bool isRepeated, Dictionary<string, string> attributes, Callback callback = null)
+		{
+			string url = "http://" + serviceHostname + servicePath;
+
+			string httpBody = Json.Serialize(new Dictionary<string, object> {
+				{ "game_token", gameToken },
+				{ "player_token", playerToken },
+				{ "is_existing_player", isRepeated },
+				{ "attributes", attributes }
+			});
+			byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
+
+			GameObject gameObject = new GameObject("BuffPanel Sender Coroutine");
+			Object.DontDestroyOnLoad(gameObject);
+			MonoBehaviour coroutineObject = gameObject.AddComponent<BuffPanelMonoBehaviour>();
+			coroutineObject.StartCoroutine(Send(url, httpBodyBytes, callback, gameObject));
+		}
+
 		private static IEnumerator Send(string url, byte[] httpBodyBytes, Callback callback, GameObject gameObject)
 		{
 			WWW www = null;
