@@ -46,8 +46,9 @@ public class MenuController : MonoBehaviour
 			this.playerTokenInputFieldText.text,
 			false,
 			new Dictionary<string, string>() {
-				{ "super_dlc_nazov_installed", true.ToString()},
-				{ "super_dlc_purchaseTS", 1506599038.ToString()}
+				{ "dlc_651440", "1506599038"},
+        { "dlc_647560", "1511176765"},
+        { "dlc_707480", 1511076765.ToString()}
 			},
 			new DebugCallback(this.responseText)
 		);
