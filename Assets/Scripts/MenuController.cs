@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class MenuController : MonoBehaviour
 {
@@ -44,6 +45,11 @@ public class MenuController : MonoBehaviour
 			this.gameTokenInputFieldText.text,
 			this.playerTokenInputFieldText.text,
 			false,
+			new Dictionary<string, string>() {
+				{ "dlc_651440", "1506599038"},
+        { "dlc_647560", "1511176765"},
+        { "dlc_707480", 1511076765.ToString()}
+			},
 			new DebugCallback(this.responseText)
 		);
 	}
