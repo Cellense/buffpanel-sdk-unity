@@ -35,7 +35,7 @@ Upon recieving this event the BuffPanel service identifies your game using the s
 
 ## Tracking Downloadable Content (DLC)
 
-To track information about the DLC a player purchased in the past we use the `attributes` parameter. The tracking call's structure allows for tracking of either ***Steam** DLC or any other DLC purchase as long as two information are passed to BuffPanel SDK:
+To track information about the DLC a player purchased in the past we use the `attributes` parameter. The tracking call's structure allows for tracking of either **Steam** DLC or any other DLC purchase as long as two information are passed to BuffPanel SDK:
 - a unique DLC identifier for each DLC purchase
 - UNIX timestamp of each DLC purchase
 
@@ -70,7 +70,7 @@ BuffPanel.BuffPanel.Track(
 
 ### Tracking DLC purchase from another store
 
-To integrate other stores and distribution platforms you use, please contact us at contact-us@cellense.com.
+To integrate other stores and distribution platforms you use, please contact us at contact-us@buffpanel.com.
 
 ## Callbacks
 
