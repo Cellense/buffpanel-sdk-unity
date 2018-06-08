@@ -123,24 +123,19 @@ namespace BuffPanel
         {
             OperatingSystem os = Environment.OSVersion;
             PlatformID platform = os.Platform;
-            string path;
             switch (platform)
             {
                 case PlatformID.Win32NT:
                 case PlatformID.Win32S:
                 case PlatformID.Win32Windows:
                 case PlatformID.WinCE:
-                    path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\BuffPanel\";
-                    Debug.Log(path);
-                    return path;
+                    return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\BuffPanel\";
                 case PlatformID.Unix:
-                    path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"/BuffPanel/");
-                    Debug.Log(path);
-                    return path;
+                    return Path.GetDirectoryName(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)) + @"/BuffPanel/";
                 case PlatformID.MacOSX:
-                    return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"/BuffPanel/");
+                    return Path.GetDirectoryName(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)) + @"/BuffPanel/";
                 default:
-                    return null;
+                    return "";
             }
         }
 
@@ -193,7 +188,5 @@ namespace BuffPanel
             Regex uuidRegex = new Regex(@"^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$");
             return uuidRegex.IsMatch(uuid);
         }
-
-
     }
 }

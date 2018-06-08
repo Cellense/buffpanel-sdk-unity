@@ -43,7 +43,6 @@ public class MenuController : MonoBehaviour
 	{
 		BuffPanel.BuffPanel.Track(
 			"test_game_token2",
-			"test_player_token",
 			false,
 			new Dictionary<string, string>() {
 				{ "dlc_651440", "1506599038"},
