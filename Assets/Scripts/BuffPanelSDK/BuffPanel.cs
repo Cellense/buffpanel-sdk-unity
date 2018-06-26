@@ -1,33 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using UnityEngine;
-using System.IO;
 using System;
 using System.Text.RegularExpressions;
+using System.IO;
+using UnityEngine;
+
 
 namespace BuffPanel
 {
-	class BuffPanelMonoBehaviour : MonoBehaviour
-	{
-	}
+    class BuffPanelMonoBehaviour : MonoBehaviour
+    {
+    }
 
-	public class BuffPanel
-	{
-		public static string serviceHostname = "staging.api.buffpanel.com";
-		public static string servicePath = "/run_event/create";
+    public class BuffPanel
+    {
+        public static string serviceHostname = "api.buffpanel.com";
+        public static string servicePath = "/run_event/create";
 
-		public static string version = "unity_0.0.1";
+        public static string version = "unity_1.0.0";
 
-		private static float initialRetryOffset = 0.25f;
-		private static int maxRetryCount = 10;
+        private static float initialRetryOffset = 0.25f;
+        private static int maxRetryCount = 10;
 
-		private static Dictionary<string, string> httpHeaders = new Dictionary<string, string> {
-			{ "Content-type", "application/json" }
-		};
+        private static Dictionary<string, string> httpHeaders = new Dictionary<string, string> {
+            { "Content-type", "application/json" }
+        };
 
-		public static void Track(string gameToken, bool isExistingPlayer, Callback callback = null)
-		{
+        public static void Track(string gameToken, bool isExistingPlayer, Callback callback = null)
+        {
             string playerToken = "";
             try
             {
@@ -37,24 +38,25 @@ namespace BuffPanel
             {
                 playerToken = "unknown_player";
             }
+
             string url = "http://" + serviceHostname + servicePath;
 
-			string httpBody = Json.Serialize(new Dictionary<string, object> {
-				{ "game_token", gameToken },
-				{ "player_token", playerToken },
-				{ "is_existing_player", isExistingPlayer },
-				{ "version", version }
-			});
-			byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
+            string httpBody = Json.Serialize(new Dictionary<string, object> {
+                { "game_token", gameToken },
+                { "player_token", playerToken },
+                { "is_existing_player", isExistingPlayer },
+                { "version", version }
+            });
+            byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
 
-			GameObject gameObject = new GameObject("BuffPanel Sender Coroutine");
+            GameObject gameObject = new GameObject("BuffPanel Sender Coroutine");
             UnityEngine.Object.DontDestroyOnLoad(gameObject);
-			MonoBehaviour coroutineObject = gameObject.AddComponent<BuffPanelMonoBehaviour>();
-			coroutineObject.StartCoroutine(Send(url, httpBodyBytes, callback, gameObject));
-		}
+            MonoBehaviour coroutineObject = gameObject.AddComponent<BuffPanelMonoBehaviour>();
+            coroutineObject.StartCoroutine(Send(url, httpBodyBytes, callback, gameObject));
+        }
 
-		public static void Track(string gameToken, bool isExistingPlayer, Dictionary<string, string> attributes, Callback callback = null)
-		{
+        public static void Track(string gameToken, bool isExistingPlayer, Dictionary<string, string> attributes, Callback callback = null)
+        {
 
             string playerToken = "";
             try
@@ -65,59 +67,61 @@ namespace BuffPanel
             {
                 playerToken = "unknown_player";
             }
-            
-
-            Debug.Log(playerToken);
-
 
             string url = "http://" + serviceHostname + servicePath;
 
-			string httpBody = Json.Serialize(new Dictionary<string, object> {
-				{ "game_token", gameToken },
-				{ "player_token", playerToken },
-				{ "is_existing_player", isExistingPlayer },
-				{ "attributes", attributes },
-				{ "version", version }
-			});
-			byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
+            string httpBody = Json.Serialize(new Dictionary<string, object> {
+                { "game_token", gameToken },
+                { "player_token", playerToken },
+                { "is_existing_player", isExistingPlayer },
+                { "attributes", attributes },
+                { "version", version }
+            });
+            byte[] httpBodyBytes = Encoding.UTF8.GetBytes(httpBody);
 
-			GameObject gameObject = new GameObject("BuffPanel Sender Coroutine");
+            GameObject gameObject = new GameObject("BuffPanel Sender Coroutine");
             UnityEngine.Object.DontDestroyOnLoad(gameObject);
-			MonoBehaviour coroutineObject = gameObject.AddComponent<BuffPanelMonoBehaviour>();
-			coroutineObject.StartCoroutine(Send(url, httpBodyBytes, callback, gameObject));
-		}
+            MonoBehaviour coroutineObject = gameObject.AddComponent<BuffPanelMonoBehaviour>();
+            coroutineObject.StartCoroutine(Send(url, httpBodyBytes, callback, gameObject));
+        }
 
-		private static IEnumerator Send(string url, byte[] httpBodyBytes, Callback callback, GameObject gameObject)
-		{
-			WWW www = null;
+        private static IEnumerator Send(string url, byte[] httpBodyBytes, Callback callback, GameObject gameObject)
+        {
+            WWW www = null;
 
-			bool isSuccessfull = false;
-			float retryOffset = initialRetryOffset;
+            bool isSuccessfull = false;
+            float retryOffset = initialRetryOffset;
 
-			for (int retryCount = 0; retryCount < maxRetryCount; ++retryCount) {
-				www = new WWW(url, httpBodyBytes, httpHeaders);
+            for (int retryCount = 0; retryCount < maxRetryCount; ++retryCount)
+            {
+                www = new WWW(url, httpBodyBytes, httpHeaders);
 
-				yield return www;
+                yield return www;
 
-				if (www.error == null) {
-					isSuccessfull = true;
-					break;
-				}
+                if (www.error == null)
+                {
+                    isSuccessfull = true;
+                    break;
+                }
 
-				yield return new WaitForSeconds(retryOffset);
-				retryOffset *= 2;
-			}
+                yield return new WaitForSeconds(retryOffset);
+                retryOffset *= 2;
+            }
 
-			if (callback != null) {
-				if (isSuccessfull) {
-					callback.success(www);
-				} else {
-					callback.error(www);
-				}
-			}
+            if (callback != null)
+            {
+                if (isSuccessfull)
+                {
+                    callback.success(www);
+                }
+                else
+                {
+                    callback.error(www);
+                }
+            }
 
             UnityEngine.Object.Destroy(gameObject);
-		}
+        }
 
         private static string GetUuidPersistPath()
         {
@@ -141,7 +145,7 @@ namespace BuffPanel
 
         private static string ReadSavedUuid(string path)
         {
-            if (File.Exists(path))
+            if (System.IO.File.Exists(path))
             {
                 string uuid;
                 try
@@ -161,7 +165,7 @@ namespace BuffPanel
 
                 return uuid;
             }
-            return "";             
+            return "";
         }
 
         private static void SaveUuid(string filePath, string folderPath, string uuid)
