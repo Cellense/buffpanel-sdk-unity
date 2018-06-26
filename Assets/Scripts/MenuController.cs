@@ -42,8 +42,7 @@ public class MenuController : MonoBehaviour
 	public void OnSubmitClick()
 	{
 		BuffPanel.BuffPanel.Track(
-			this.gameTokenInputFieldText.text,
-			this.playerTokenInputFieldText.text,
+			"test_game_token2",
 			false,
 			new Dictionary<string, string>() {
 				{ "dlc_651440", "1506599038"},
