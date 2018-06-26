@@ -26,7 +26,7 @@ BuffPanel.BuffPanel.Track(game_token, is_existing_player, attributes, [callback]
 - `attributes` are a *Dictionary<string, string>* value, that carry any additional information valuable for you, for example purchased DLC list
 - `callback` is an optional `BuffPanel.Callback` function to be called after the tracking event is delivered
 
-Former `player_token` is no longer used, instead universally unique identifier (UUID) is generated and persisted on player's machine.
+Former `player_token` is no longer used, instead universally unique identifier (UUID) is generated and persisted on player's machine implictly.
 
 ## How it works?
 
